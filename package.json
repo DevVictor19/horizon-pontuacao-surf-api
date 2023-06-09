@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --transpile-only src/server.ts"
+    "dev": "ts-node-dev --transpile-only src/server.ts",
+    "typeorm": "ts-node-dev node_modules/typeorm/cli.js",
+    "typeorm:migrations": "npm run typeorm -- -d src/database/data-source.ts migration:run"
   },
   "keywords": [],
   "author": "",
