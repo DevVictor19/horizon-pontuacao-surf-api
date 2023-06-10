@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm';
 import dotenv from 'dotenv';
 
 import { Surfista } from '../entities/Surfista';
+import { Bateria } from '../entities/Bateria';
 
 import { CreateSurfistasTable1686401690786 } from './migrations/1686401690786-CreateSurfistasTable';
 import { CreateBateriasTable1686401766360 } from './migrations/1686401766360-CreateBateriasTable';
@@ -19,7 +20,7 @@ const AppDataSource = new DataSource({
   database: process.env.TYPEORM_DATABASE,
   synchronize: true,
   logging: false,
-  entities: [Surfista],
+  entities: [Surfista, Bateria],
   migrations: [
     CreateSurfistasTable1686401690786,
     CreateBateriasTable1686401766360,
