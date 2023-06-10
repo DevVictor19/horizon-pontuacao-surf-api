@@ -16,7 +16,7 @@ export class CreateOndasTable1686401811113 implements MigrationInterface {
             type: 'uuid',
           },
           {
-            name: 'surfista_id',
+            name: 'surfista_numero',
             type: 'integer',
           },
         ],
@@ -28,8 +28,8 @@ export class CreateOndasTable1686401811113 implements MigrationInterface {
             referencedColumnNames: ['id'],
           },
           {
-            name: 'fk_surfista_id',
-            columnNames: ['surfista_id'],
+            name: 'fk_surfista_numero',
+            columnNames: ['surfista_numero'],
             referencedTableName: 'surfistas',
             referencedColumnNames: ['numero'],
           },
