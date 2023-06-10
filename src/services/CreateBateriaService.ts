@@ -24,7 +24,9 @@ class CreateBateriaService {
     }
 
     if (surfista_1_numero === surfista_2_numero) {
-      return new Error('Um bateria deve ser composta por surfistas diferentes');
+      return new Error(
+        'Uma bateria deve ser composta por surfistas diferentes'
+      );
     }
 
     const [surfista_1, surfista_2] = await Promise.all([
