@@ -3,10 +3,10 @@ import dotenv from 'dotenv';
 
 import { Surfista } from '../entities/Surfista';
 
-import { CreateSurfistasTable1686315014145 } from './migrations/1686315014145-CreateSurfistasTable';
-import { CreateBateriasTable1686315297529 } from './migrations/1686315297529-CreateBateriasTable';
-import { CreateOndasTable1686315737993 } from './migrations/1686315737993-CreateOndasTable';
-import { CreateNotasTable1686313624152 } from './migrations/1686313624152-CreateNotasTable';
+import { CreateSurfistasTable1686401690786 } from './migrations/1686401690786-CreateSurfistasTable';
+import { CreateBateriasTable1686401766360 } from './migrations/1686401766360-CreateBateriasTable';
+import { CreateOndasTable1686401811113 } from './migrations/1686401811113-CreateOndasTable';
+import { CreateNotasTable1686401861334 } from './migrations/1686401861334-CreateNotasTable';
 
 dotenv.config();
 
@@ -21,10 +21,10 @@ const AppDataSource = new DataSource({
   logging: false,
   entities: [Surfista],
   migrations: [
-    CreateSurfistasTable1686315014145,
-    CreateBateriasTable1686315297529,
-    CreateOndasTable1686315737993,
-    CreateNotasTable1686313624152,
+    CreateSurfistasTable1686401690786,
+    CreateBateriasTable1686401766360,
+    CreateOndasTable1686401811113,
+    CreateNotasTable1686401861334,
   ],
   subscribers: [],
 });
