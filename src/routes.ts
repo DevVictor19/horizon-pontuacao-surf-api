@@ -10,6 +10,8 @@ import { GetAllBateriasController } from './controllers/GetAllBateriasController
 
 import { CreateOndaController } from './controllers/CreateOndaController';
 
+import { CreateNotaController } from './controllers/CreateNotaController';
+
 const routes = Router();
 
 routes.post('/surfistas', new CreateSurfistaController().handle);
@@ -21,5 +23,7 @@ routes.post('/baterias', new CreateBateriaController().handle);
 routes.get('/baterias', new GetAllBateriasController().handle);
 
 routes.post('/ondas', new CreateOndaController().handle);
+
+routes.post('/notas', new CreateNotaController().handle);
 
 export { routes };
