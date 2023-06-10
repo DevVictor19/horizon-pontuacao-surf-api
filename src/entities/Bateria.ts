@@ -1,5 +1,7 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
+import { Surfista } from './Surfista';
 
 @Entity('baterias')
 class Bateria {
@@ -11,6 +13,14 @@ class Bateria {
 
   @Column()
   surfista_2_numero: number;
+
+  @ManyToOne(() => Surfista)
+  @JoinColumn({ name: 'surfista_1_numero' })
+  surfista_1: Surfista;
+
+  @ManyToOne(() => Surfista)
+  @JoinColumn({ name: 'surfista_2_numero' })
+  surfista_2: Surfista;
 
   constructor() {
     if (!this.id) {
