@@ -1,17 +1,14 @@
-import { AppDataSource } from '../database/data-source';
-import { Surfista } from '../entities/Surfista';
+import { Surfista } from '../database/postgres/surfistas/Surfistas.entity';
+import { surfistasRepository } from '../database/postgres/surfistas/Surfistas.repository';
 
 type Query = Partial<Surfista>;
 
 class GetAllSurfistasService {
   async execute(query?: Query): Promise<Surfista[]> {
-    const repo = AppDataSource.getRepository(Surfista);
-
-    const surfistas = await repo.find(
+    const surfistas = await surfistasRepository.find(
       query && {
         where: {
           ...(query.nome && { nome: query.nome }),
-          ...(query.numero && { numero: query.numero }),
           ...(query.pais && { pais: query.pais }),
         },
       }

@@ -1,5 +1,6 @@
-import { AppDataSource } from '../database/data-source';
-import { Surfista } from '../entities/Surfista';
+import { surfistasRepository } from '../database/postgres/surfistas/Surfistas.repository';
+
+import { Surfista } from '../database/postgres/surfistas/Surfistas.entity';
 
 type SurfistaUpdateRequest = {
   id: number;
@@ -13,9 +14,7 @@ class UpdateSurfistaService {
     nome,
     pais,
   }: SurfistaUpdateRequest): Promise<Surfista | Error> {
-    const repo = AppDataSource.getRepository(Surfista);
-
-    const surfista = await repo.findOneBy({ numero: id });
+    const surfista = await surfistasRepository.findOneBy({ numero: id });
 
     if (!surfista) {
       return new Error('Surfista não cadastrado');
@@ -27,7 +26,7 @@ class UpdateSurfistaService {
       ...(pais && { pais }),
     };
 
-    await repo.save(updatedSurfista);
+    await surfistasRepository.save(updatedSurfista);
 
     return updatedSurfista;
   }
