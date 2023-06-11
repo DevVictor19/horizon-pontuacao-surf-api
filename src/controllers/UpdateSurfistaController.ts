@@ -9,12 +9,6 @@ class UpdateSurfistaController {
 
     const service = new UpdateSurfistaService();
 
-    if (isNaN(+id)) {
-      return response
-        .status(400)
-        .json({ mensagem: 'Parâmetro de pesquisa inválido' });
-    }
-
     const result = await service.execute({ id: +id, nome, pais });
 
     if (result instanceof Error) {

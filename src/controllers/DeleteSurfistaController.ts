@@ -8,12 +8,6 @@ class DeleteSurfistaController {
 
     const service = new DeleteSurfistaService();
 
-    if (isNaN(+id)) {
-      return response
-        .status(400)
-        .json({ mensagem: 'Parâmetro de pesquisa inválido' });
-    }
-
     const result = await service.execute(+id);
 
     if (result instanceof Error) {
