@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
-import { Onda } from './Onda';
+import { Onda } from '../ondas/Ondas.entity';
 
 @Entity('notas')
 class Nota {
