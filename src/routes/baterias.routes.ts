@@ -4,7 +4,8 @@ import { CreateBateriaController } from '../controllers/CreateBateriaController'
 import { GetAllBateriasController } from '../controllers/GetAllBateriasController';
 import { GetBateriaVencedorController } from '../controllers/GetBateriaVencedorController';
 
-import { validateUuidV4Params } from '../middlewares/validateUuidV4Params';
+import { ValidateParams } from '../middlewares/ValidateParams';
+import { bateriasParamsValidationSchema } from '../validations/bateriasParams.validations';
 
 const bateriasRoutes = Router();
 
@@ -13,7 +14,7 @@ bateriasRoutes.get('/', new GetAllBateriasController().handle);
 
 bateriasRoutes.get(
   '/:id/vencedor',
-  validateUuidV4Params,
+  new ValidateParams().validate(bateriasParamsValidationSchema),
   new GetBateriaVencedorController().handle
 );
 
