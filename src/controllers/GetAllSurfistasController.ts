@@ -8,9 +8,7 @@ class GetAllSurfistasController {
 
     const service = new GetAllSurfistasService();
 
-    const hasQueries = Object.keys(query).length > 0;
-
-    const surfistas = await service.execute(hasQueries && query);
+    const surfistas = await service.execute(query);
 
     return response.json(surfistas);
   }
