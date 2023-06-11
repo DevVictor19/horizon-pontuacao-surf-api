@@ -15,7 +15,7 @@ export function validateUuidV4Params(
   if (!isValid_uuid) {
     return response
       .status(400)
-      .json({ mensagem: 'O parâmetro de busca de ser um uuidV4 válido' });
+      .json({ mensagem: 'O parâmetro de busca deve ser um uuidV4 válido' });
   }
 
   next();
