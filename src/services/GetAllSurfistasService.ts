@@ -7,14 +7,12 @@ class GetAllSurfistasService {
   async execute(query?: Query): Promise<Surfista[]> {
     const repo = AppDataSource.getRepository(Surfista);
 
-    const { nome, numero, pais } = query;
-
     const surfistas = await repo.find(
       query && {
         where: {
-          ...(nome && { nome }),
-          ...(numero && { numero }),
-          ...(pais && { pais }),
+          ...(query.nome && { nome: query.nome }),
+          ...(query.numero && { numero: query.numero }),
+          ...(query.pais && { pais: query.pais }),
         },
       }
     );
