@@ -1,11 +1,10 @@
-import { AppDataSource } from '../database/data-source';
-import { Bateria } from '../entities/Bateria';
+import { bateriasRepository } from '../database/postgres/baterias/Baterias.repository';
+
+import { Bateria } from '../database/postgres/baterias/Baterias.entity';
 
 class GetAllBateriasService {
   async execute(): Promise<Bateria[]> {
-    const repo = AppDataSource.getRepository(Bateria);
-
-    const baterias = await repo.find();
+    const baterias = await bateriasRepository.find();
 
     return baterias;
   }

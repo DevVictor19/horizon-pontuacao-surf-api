@@ -1,10 +1,10 @@
 import { DataSource } from 'typeorm';
 import dotenv from 'dotenv';
 
-import { Surfista } from '../entities/Surfista';
-import { Bateria } from '../entities/Bateria';
-import { Onda } from '../entities/Onda';
-import { Nota } from '../entities/Nota';
+import { Surfista } from './postgres/surfistas/Surfistas.entity';
+import { Bateria } from './postgres/baterias/Baterias.entity';
+import { Onda } from './postgres/ondas/Ondas.entity';
+import { Nota } from './postgres/notas/Notas.entity';
 
 import { CreateSurfistasTable1686401690786 } from './migrations/1686401690786-CreateSurfistasTable';
 import { CreateBateriasTable1686401766360 } from './migrations/1686401766360-CreateBateriasTable';
