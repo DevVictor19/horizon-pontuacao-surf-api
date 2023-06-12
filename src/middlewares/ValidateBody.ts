@@ -2,24 +2,29 @@ import { Request, Response, NextFunction } from 'express';
 
 type Rules = {
   errorMessage: string;
-  validationFn: (value: string) => boolean;
+  required: boolean;
+  validationFn: (value: any) => boolean;
 };
 
-export type ValidateParamsSchema = {
+export type ValidateBodySchema = {
   [key: string]: Rules;
 };
 
-class ValidateParams {
-  validate(schema: ValidateParamsSchema) {
+class ValidateBody {
+  validate(schema: ValidateBodySchema) {
     return function (request: Request, response: Response, next: NextFunction) {
-      const { params } = request;
+      const { body } = request;
 
       const errors: string[] = [];
 
       Object.keys(schema).forEach((item) => {
-        const param = params[item];
+        const bodyItem = body[item];
 
-        const isValid = schema[item].validationFn(param);
+        if (bodyItem === undefined && schema[item].required === false) {
+          return;
+        }
+
+        const isValid = schema[item].validationFn(bodyItem);
 
         if (!isValid) {
           errors.push(schema[item].errorMessage);
@@ -35,4 +40,4 @@ class ValidateParams {
   }
 }
 
-export { ValidateParams };
+export { ValidateBody };
