@@ -10,6 +10,7 @@ import { ValidateBody } from '../middlewares/ValidateBody';
 
 import { surfistasParamsValidationSchema } from '../validations/surfistasParams.validations';
 import { createSurfistaBodyValidationSchema } from '../validations/createSurfistaBody.validations';
+import { updateSurfistaBodyValidationSchema } from '../validations/updateSurfistaBody.validations';
 
 const surfistasRoutes = Router();
 
@@ -30,6 +31,7 @@ surfistasRoutes.delete(
 surfistasRoutes.put(
   '/:id',
   new ValidateParams().validate(surfistasParamsValidationSchema),
+  new ValidateBody().validate(updateSurfistaBodyValidationSchema),
   new UpdateSurfistaController().handle
 );
 
