@@ -17,15 +17,6 @@ class CreateNotaService {
     notaParcial2,
     notaParcial3,
   }: NotaRequest): Promise<Nota | Error> {
-    if (
-      typeof onda_id !== 'string' ||
-      typeof notaParcial1 !== 'number' ||
-      typeof notaParcial2 !== 'number' ||
-      typeof notaParcial3 !== 'number'
-    ) {
-      return new Error('Corpo da requisição inválida');
-    }
-
     const onda = await ondasRepository.findOneBy({ id: onda_id });
 
     if (!onda) {
