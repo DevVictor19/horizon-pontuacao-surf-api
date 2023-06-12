@@ -16,6 +16,7 @@ Hoziron Surf Api é um sistema de gerenciamento de torneios de surf, capaz de fa
 - PostgresSQL
 - TypeORM
 
+
 ## Executando o projeto na sua máquina
 
 1. Instalar dependências com o seguinte comando
@@ -25,6 +26,15 @@ npm i
 ```
 
 2. Criar .env de forma local
+
+<img src="https://github.com/DevVictor19/horizon-pontuacao-surf-api/assets/90735982/eb98ed7c-c683-4584-a2b5-ef11b0840c87" />
+
+<br />
+
+Crie um arquivo .env no diretório do projeto e configure as variáveis de ambiente com base nas suas especificações.
+
+<br />
+<br />
 
 3. Executar comando para a criação do banco
 
