@@ -13,13 +13,6 @@ class CreateBateriaService {
     surfista_1_numero,
     surfista_2_numero,
   }: BateriaRequest): Promise<Bateria | Error> {
-    if (
-      typeof surfista_1_numero !== 'number' ||
-      typeof surfista_2_numero !== 'number'
-    ) {
-      return new Error('Corpo da requisição inválida');
-    }
-
     if (surfista_1_numero === surfista_2_numero) {
       return new Error(
         'Uma bateria deve ser composta por surfistas diferentes'
