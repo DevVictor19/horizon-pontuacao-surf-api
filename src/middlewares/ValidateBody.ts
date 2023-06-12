@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 type Rules = {
   errorMessage: string;
+  required: boolean;
   validationFn: (value: any) => boolean;
 };
 
@@ -18,6 +19,10 @@ class ValidateBody {
 
       Object.keys(schema).forEach((item) => {
         const bodyItem = body[item];
+
+        if (bodyItem === undefined && schema[item].required === false) {
+          return;
+        }
 
         const isValid = schema[item].validationFn(bodyItem);
 
