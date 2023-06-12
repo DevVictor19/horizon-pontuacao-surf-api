@@ -16,17 +16,17 @@ class ValidateParams {
 
       const errors: string[] = [];
 
-      let isValid = true;
-
       Object.keys(schema).forEach((item) => {
         const param = params[item];
 
-        isValid = schema[item].validationFn(param);
+        const isValid = schema[item].validationFn(param);
 
-        errors.push(schema[item].errorMessage);
+        if (!isValid) {
+          errors.push(schema[item].errorMessage);
+        }
       });
 
-      if (!isValid) {
+      if (errors.length > 0) {
         return response.status(400).json({ erros: errors });
       }
 
