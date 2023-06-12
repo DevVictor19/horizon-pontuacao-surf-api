@@ -20,6 +20,13 @@ class CreateOndaService {
       return new Error('Bateria não cadastrada');
     }
 
+    if (
+      bateria.surfista_1_numero !== surfista_numero &&
+      bateria.surfista_2_numero !== surfista_numero
+    ) {
+      return new Error('O surfista não está cadastrado na bateria');
+    }
+
     const surfista = await surfistasRepository.findOneBy({
       numero: surfista_numero,
     });
