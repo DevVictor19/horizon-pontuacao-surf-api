@@ -9,19 +9,19 @@ class UpdateSurfistaController {
 
     const service = new UpdateSurfistaService();
 
-    if (isNaN(+id)) {
+    try {
+      const result = await service.execute({ id: +id, nome, pais });
+
+      if (result instanceof Error) {
+        return response.status(404).json({ mensagem: result.message });
+      }
+
+      return response.json(result);
+    } catch {
       return response
-        .status(400)
-        .json({ mensagem: 'Parâmetro de pesquisa inválido' });
+        .status(500)
+        .json({ mensagem: 'Não foi possível editar surfista' });
     }
-
-    const result = await service.execute({ id: +id, nome, pais });
-
-    if (result instanceof Error) {
-      return response.status(404).json({ mensagem: result.message });
-    }
-
-    return response.json(result);
   }
 }
 

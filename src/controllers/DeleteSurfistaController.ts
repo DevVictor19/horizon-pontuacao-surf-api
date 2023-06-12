@@ -8,19 +8,19 @@ class DeleteSurfistaController {
 
     const service = new DeleteSurfistaService();
 
-    if (isNaN(+id)) {
+    try {
+      const result = await service.execute(+id);
+
+      if (result instanceof Error) {
+        return response.status(404).json({ mensagem: result.message });
+      }
+
+      return response.sendStatus(204);
+    } catch {
       return response
-        .status(400)
-        .json({ mensagem: 'Parâmetro de pesquisa inválido' });
+        .status(500)
+        .json({ mensagem: 'Não foi possível deletar surfista' });
     }
-
-    const result = await service.execute(+id);
-
-    if (result instanceof Error) {
-      return response.status(404).json({ mensagem: result.message });
-    }
-
-    return response.sendStatus(204);
   }
 }
 

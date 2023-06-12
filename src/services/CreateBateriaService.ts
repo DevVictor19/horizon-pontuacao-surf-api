@@ -1,7 +1,7 @@
-import { AppDataSource } from '../database/data-source';
+import { bateriasRepository } from '../database/postgres/baterias/Baterias.repository';
+import { surfistasRepository } from '../database/postgres/surfistas/Surfistas.repository';
 
-import { Bateria } from '../entities/Bateria';
-import { Surfista } from '../entities/Surfista';
+import { Bateria } from '../database/postgres/baterias/Baterias.entity';
 
 type BateriaRequest = {
   surfista_1_numero: number;
@@ -13,16 +13,6 @@ class CreateBateriaService {
     surfista_1_numero,
     surfista_2_numero,
   }: BateriaRequest): Promise<Bateria | Error> {
-    const bateriasRepo = AppDataSource.getRepository(Bateria);
-    const surfistasRepo = AppDataSource.getRepository(Surfista);
-
-    if (
-      typeof surfista_1_numero !== 'number' ||
-      typeof surfista_2_numero !== 'number'
-    ) {
-      return new Error('Corpo da requisição inválida');
-    }
-
     if (surfista_1_numero === surfista_2_numero) {
       return new Error(
         'Uma bateria deve ser composta por surfistas diferentes'
@@ -30,20 +20,20 @@ class CreateBateriaService {
     }
 
     const [surfista_1, surfista_2] = await Promise.all([
-      surfistasRepo.findOneBy({ numero: surfista_1_numero }),
-      surfistasRepo.findOneBy({ numero: surfista_2_numero }),
+      surfistasRepository.findOneBy({ numero: surfista_1_numero }),
+      surfistasRepository.findOneBy({ numero: surfista_2_numero }),
     ]);
 
     if (!surfista_1 || !surfista_2) {
       return new Error('Todos os surfistas devem estar cadastrados');
     }
 
-    const bateria = bateriasRepo.create({
+    const bateria = bateriasRepository.create({
       surfista_1_numero,
       surfista_2_numero,
     });
 
-    await bateriasRepo.save(bateria);
+    await bateriasRepository.save(bateria);
 
     return bateria;
   }

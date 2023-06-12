@@ -8,13 +8,19 @@ class CreateOndaController {
 
     const service = new CreateOndaService();
 
-    const result = await service.execute({ bateria_id, surfista_numero });
+    try {
+      const result = await service.execute({ bateria_id, surfista_numero });
 
-    if (result instanceof Error) {
-      return response.status(400).json({ mensagem: result.message });
+      if (result instanceof Error) {
+        return response.status(400).json({ mensagem: result.message });
+      }
+
+      return response.status(201).json(result);
+    } catch {
+      return response
+        .status(500)
+        .json({ mensagem: 'Não foi possível cadastrar nova onda' });
     }
-
-    return response.status(201).json(result);
   }
 }
 

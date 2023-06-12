@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
-import { Surfista } from './Surfista';
+import { Surfista } from '../surfistas/Surfistas.entity';
 
 @Entity('baterias')
 class Bateria {

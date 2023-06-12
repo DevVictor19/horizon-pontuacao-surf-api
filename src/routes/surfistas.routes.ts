@@ -5,11 +5,34 @@ import { GetAllSurfistasController } from '../controllers/GetAllSurfistasControl
 import { DeleteSurfistaController } from '../controllers/DeleteSurfistaController';
 import { UpdateSurfistaController } from '../controllers/UpdateSurfistaController';
 
+import { ValidateParams } from '../middlewares/ValidateParams';
+import { ValidateBody } from '../middlewares/ValidateBody';
+
+import { surfistasParamsValidationSchema } from '../validations/surfistasParams.validations';
+import { createSurfistaBodyValidationSchema } from '../validations/createSurfistaBody.validations';
+import { updateSurfistaBodyValidationSchema } from '../validations/updateSurfistaBody.validations';
+
 const surfistasRoutes = Router();
 
-surfistasRoutes.post('/', new CreateSurfistaController().handle);
 surfistasRoutes.get('/', new GetAllSurfistasController().handle);
-surfistasRoutes.delete('/:id', new DeleteSurfistaController().handle);
-surfistasRoutes.put('/:id', new UpdateSurfistaController().handle);
+
+surfistasRoutes.post(
+  '/',
+  new ValidateBody().validate(createSurfistaBodyValidationSchema),
+  new CreateSurfistaController().handle
+);
+
+surfistasRoutes.delete(
+  '/:id',
+  new ValidateParams().validate(surfistasParamsValidationSchema),
+  new DeleteSurfistaController().handle
+);
+
+surfistasRoutes.put(
+  '/:id',
+  new ValidateParams().validate(surfistasParamsValidationSchema),
+  new ValidateBody().validate(updateSurfistaBodyValidationSchema),
+  new UpdateSurfistaController().handle
+);
 
 export { surfistasRoutes };

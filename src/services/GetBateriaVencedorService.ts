@@ -1,8 +1,8 @@
-import { AppDataSource } from '../database/data-source';
+import { bateriasRepository } from '../database/postgres/baterias/Baterias.repository';
+import { notasRepository } from '../database/postgres/notas/Notas.repository';
+import { ondasRepository } from '../database/postgres/ondas/Ondas.repository';
 
-import { Bateria } from '../entities/Bateria';
-import { Nota } from '../entities/Nota';
-import { Onda } from '../entities/Onda';
+import { Nota } from '../database/postgres/notas/Notas.entity';
 
 type BateriaVencedorRequest = {
   bateria_id: string;
@@ -18,26 +18,22 @@ class GetBateriaVencedorService {
   async execute({
     bateria_id,
   }: BateriaVencedorRequest): Promise<BateriaVencedorResponse | Error> {
-    const bateriasRepo = AppDataSource.getRepository(Bateria);
-
-    const bateria = await bateriasRepo.findOneBy({ id: bateria_id });
+    const bateria = await bateriasRepository.findOneBy({ id: bateria_id });
 
     if (!bateria) {
       return new Error('Bateria não cadastrada');
     }
 
-    const ondasRepo = AppDataSource.getRepository(Onda);
+    const ondasDaBateria = await ondasRepository.findBy({ bateria_id });
 
-    const bateriaOndas = await ondasRepo.findBy({ bateria_id });
-
-    if (bateriaOndas.length === 0) {
+    if (ondasDaBateria.length === 0) {
       return new Error('A bateria ainda não possui ondas cadastradas');
     }
 
     const surfista_1_numero = bateria.surfista_1_numero;
     const surfista_2_numero = bateria.surfista_2_numero;
 
-    const bothHaveWaves = bateriaOndas.some(
+    const bothHaveWaves = ondasDaBateria.some(
       (onda) => onda.surfista_numero !== surfista_1_numero
     );
 
@@ -45,20 +41,18 @@ class GetBateriaVencedorService {
       return new Error('Nem todos os surfistas possuem ondas cadastradas');
     }
 
-    const notasRepo = AppDataSource.getRepository(Nota);
-
     const queries_notas_surfista_1: Promise<Nota[]>[] = [];
     const queries_notas_surfista_2: Promise<Nota[]>[] = [];
 
-    bateriaOndas.forEach((onda) => {
+    ondasDaBateria.forEach((onda) => {
       if (onda.surfista_numero === surfista_1_numero) {
-        const query = notasRepo.findBy({ onda_id: onda.id });
+        const query = notasRepository.findBy({ onda_id: onda.id });
 
         queries_notas_surfista_1.push(query);
       }
 
       if (onda.surfista_numero === surfista_2_numero) {
-        const query = notasRepo.findBy({ onda_id: onda.id });
+        const query = notasRepository.findBy({ onda_id: onda.id });
 
         queries_notas_surfista_2.push(query);
       }

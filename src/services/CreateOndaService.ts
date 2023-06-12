@@ -1,7 +1,8 @@
-import { AppDataSource } from '../database/data-source';
-import { Bateria } from '../entities/Bateria';
-import { Onda } from '../entities/Onda';
-import { Surfista } from '../entities/Surfista';
+import { bateriasRepository } from '../database/postgres/baterias/Baterias.repository';
+import { ondasRepository } from '../database/postgres/ondas/Ondas.repository';
+import { surfistasRepository } from '../database/postgres/surfistas/Surfistas.repository';
+
+import { Onda } from '../database/postgres/ondas/Ondas.entity';
 
 type OndaRequest = {
   bateria_id: string;
@@ -13,25 +14,30 @@ class CreateOndaService {
     bateria_id,
     surfista_numero,
   }: OndaRequest): Promise<Onda | Error> {
-    const ondasRepo = AppDataSource.getRepository(Onda);
-    const bateriasRepo = AppDataSource.getRepository(Bateria);
-    const surfistasRepo = AppDataSource.getRepository(Surfista);
+    const bateria = await bateriasRepository.findOneBy({ id: bateria_id });
 
-    if (typeof bateria_id !== 'string' || typeof surfista_numero !== 'number') {
-      return new Error('Corpo da requisição inválida');
-    }
-
-    if (!(await bateriasRepo.findOneBy({ id: bateria_id }))) {
+    if (!bateria) {
       return new Error('Bateria não cadastrada');
     }
 
-    if (!(await surfistasRepo.findOneBy({ numero: surfista_numero }))) {
+    if (
+      bateria.surfista_1_numero !== surfista_numero &&
+      bateria.surfista_2_numero !== surfista_numero
+    ) {
+      return new Error('O surfista não está cadastrado na bateria');
+    }
+
+    const surfista = await surfistasRepository.findOneBy({
+      numero: surfista_numero,
+    });
+
+    if (!surfista) {
       return new Error('Surfista não cadastrado');
     }
 
-    const onda = ondasRepo.create({ bateria_id, surfista_numero });
+    const onda = ondasRepository.create({ bateria_id, surfista_numero });
 
-    await ondasRepo.save(onda);
+    await ondasRepository.save(onda);
 
     return onda;
   }

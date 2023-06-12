@@ -1,6 +1,7 @@
-import { AppDataSource } from '../database/data-source';
-import { Nota } from '../entities/Nota';
-import { Onda } from '../entities/Onda';
+import { notasRepository } from '../database/postgres/notas/Notas.repository';
+import { ondasRepository } from '../database/postgres/ondas/Ondas.repository';
+
+import { Nota } from '../database/postgres/notas/Notas.entity';
 
 type NotaRequest = {
   onda_id: string;
@@ -16,32 +17,20 @@ class CreateNotaService {
     notaParcial2,
     notaParcial3,
   }: NotaRequest): Promise<Nota | Error> {
-    const notaRepo = AppDataSource.getRepository(Nota);
-    const ondaRepo = AppDataSource.getRepository(Onda);
-
-    if (
-      typeof onda_id !== 'string' ||
-      typeof notaParcial1 !== 'number' ||
-      typeof notaParcial2 !== 'number' ||
-      typeof notaParcial3 !== 'number'
-    ) {
-      return new Error('Corpo da requisição inválida');
-    }
-
-    const onda = await ondaRepo.findOneBy({ id: onda_id });
+    const onda = await ondasRepository.findOneBy({ id: onda_id });
 
     if (!onda) {
       return new Error('Onda não cadastrada');
     }
 
-    const nota = notaRepo.create({
+    const nota = notasRepository.create({
       onda_id,
       notaParcial1,
       notaParcial2,
       notaParcial3,
     });
 
-    await notaRepo.save(nota);
+    await notasRepository.save(nota);
 
     return nota;
   }

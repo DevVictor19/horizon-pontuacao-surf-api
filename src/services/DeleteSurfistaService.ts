@@ -1,15 +1,14 @@
-import { AppDataSource } from '../database/data-source';
-import { Surfista } from '../entities/Surfista';
+import { surfistasRepository } from '../database/postgres/surfistas/Surfistas.repository';
 
 class DeleteSurfistaService {
   async execute(id: number): Promise<void | Error> {
-    const repo = AppDataSource.getRepository(Surfista);
+    const surfista = await surfistasRepository.findOneBy({ numero: id });
 
-    if (!(await repo.findOneBy({ numero: id }))) {
+    if (!surfista) {
       return new Error('Surfista não cadastrado');
     }
 
-    await repo.delete({ numero: id });
+    await surfistasRepository.delete({ numero: id });
   }
 }
 

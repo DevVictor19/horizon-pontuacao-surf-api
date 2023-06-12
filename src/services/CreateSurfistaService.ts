@@ -1,5 +1,6 @@
-import { AppDataSource } from '../database/data-source';
-import { Surfista } from '../entities/Surfista';
+import { surfistasRepository } from '../database/postgres/surfistas/Surfistas.repository';
+
+import { Surfista } from '../database/postgres/surfistas/Surfistas.entity';
 
 type SurfistaRequest = {
   nome: string;
@@ -8,15 +9,9 @@ type SurfistaRequest = {
 
 class CreateSurfistaService {
   async execute({ nome, pais }: SurfistaRequest): Promise<Surfista | Error> {
-    const repo = AppDataSource.getRepository(Surfista);
+    const surfista = surfistasRepository.create({ nome, pais });
 
-    if (typeof nome !== 'string' || typeof pais !== 'string') {
-      return new Error('Corpo da requisição inválida');
-    }
-
-    const surfista = repo.create({ nome, pais });
-
-    await repo.save(surfista);
+    await surfistasRepository.save(surfista);
 
     return surfista;
   }
