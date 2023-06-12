@@ -14,10 +14,6 @@ class CreateOndaService {
     bateria_id,
     surfista_numero,
   }: OndaRequest): Promise<Onda | Error> {
-    if (typeof bateria_id !== 'string' || typeof surfista_numero !== 'number') {
-      return new Error('Corpo da requisição inválida');
-    }
-
     const bateria = await bateriasRepository.findOneBy({ id: bateria_id });
 
     if (!bateria) {
