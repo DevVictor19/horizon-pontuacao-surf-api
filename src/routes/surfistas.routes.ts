@@ -6,12 +6,20 @@ import { DeleteSurfistaController } from '../controllers/DeleteSurfistaControlle
 import { UpdateSurfistaController } from '../controllers/UpdateSurfistaController';
 
 import { ValidateParams } from '../middlewares/ValidateParams';
+import { ValidateBody } from '../middlewares/ValidateBody';
+
 import { surfistasParamsValidationSchema } from '../validations/surfistasParams.validations';
+import { createSurfistaBodyValidationSchema } from '../validations/createSurfistaBody.validations';
 
 const surfistasRoutes = Router();
 
-surfistasRoutes.post('/', new CreateSurfistaController().handle);
 surfistasRoutes.get('/', new GetAllSurfistasController().handle);
+
+surfistasRoutes.post(
+  '/',
+  new ValidateBody().validate(createSurfistaBodyValidationSchema),
+  new CreateSurfistaController().handle
+);
 
 surfistasRoutes.delete(
   '/:id',

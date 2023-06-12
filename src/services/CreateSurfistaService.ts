@@ -9,10 +9,6 @@ type SurfistaRequest = {
 
 class CreateSurfistaService {
   async execute({ nome, pais }: SurfistaRequest): Promise<Surfista | Error> {
-    if (typeof nome !== 'string' || typeof pais !== 'string') {
-      return new Error('Corpo da requisição inválida');
-    }
-
     const surfista = surfistasRepository.create({ nome, pais });
 
     await surfistasRepository.save(surfista);
