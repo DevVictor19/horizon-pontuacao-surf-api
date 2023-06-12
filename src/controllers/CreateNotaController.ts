@@ -7,18 +7,24 @@ class CreateNotaController {
 
     const service = new CreateNotaService();
 
-    const result = await service.execute({
-      onda_id,
-      notaParcial1,
-      notaParcial2,
-      notaParcial3,
-    });
+    try {
+      const result = await service.execute({
+        onda_id,
+        notaParcial1,
+        notaParcial2,
+        notaParcial3,
+      });
 
-    if (result instanceof Error) {
-      return response.status(400).json({ mensagem: result.message });
+      if (result instanceof Error) {
+        return response.status(400).json({ mensagem: result.message });
+      }
+
+      return response.status(201).json(result);
+    } catch {
+      return response
+        .status(500)
+        .json({ mensagem: 'Não foi possível cadastrar nova nota' });
     }
-
-    return response.status(201).json(result);
   }
 }
 

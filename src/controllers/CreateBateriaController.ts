@@ -7,16 +7,22 @@ class CreateBateriaController {
 
     const service = new CreateBateriaService();
 
-    const result = await service.execute({
-      surfista_1_numero,
-      surfista_2_numero,
-    });
+    try {
+      const result = await service.execute({
+        surfista_1_numero,
+        surfista_2_numero,
+      });
 
-    if (result instanceof Error) {
-      return response.status(400).json({ mensagem: result.message });
+      if (result instanceof Error) {
+        return response.status(400).json({ mensagem: result.message });
+      }
+
+      return response.status(201).json(result);
+    } catch {
+      return response
+        .status(500)
+        .json({ mensagem: 'Não foi possível cadastrar nova bateria' });
     }
-
-    return response.status(201).json(result);
   }
 }
 

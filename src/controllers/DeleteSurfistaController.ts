@@ -8,13 +8,19 @@ class DeleteSurfistaController {
 
     const service = new DeleteSurfistaService();
 
-    const result = await service.execute(+id);
+    try {
+      const result = await service.execute(+id);
 
-    if (result instanceof Error) {
-      return response.status(404).json({ mensagem: result.message });
+      if (result instanceof Error) {
+        return response.status(404).json({ mensagem: result.message });
+      }
+
+      return response.sendStatus(204);
+    } catch {
+      return response
+        .status(500)
+        .json({ mensagem: 'Não foi possível deletar surfista' });
     }
-
-    return response.sendStatus(204);
   }
 }
 

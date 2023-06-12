@@ -8,13 +8,19 @@ class CreateSurfistaController {
 
     const service = new CreateSurfistaService();
 
-    const result = await service.execute({ nome, pais });
+    try {
+      const result = await service.execute({ nome, pais });
 
-    if (result instanceof Error) {
-      return response.status(400).json({ mensagem: result.message });
+      if (result instanceof Error) {
+        return response.status(400).json({ mensagem: result.message });
+      }
+
+      return response.status(201).json(result);
+    } catch {
+      return response
+        .status(500)
+        .json({ mensagem: 'Não foi possível cadastrar novo surfista' });
     }
-
-    return response.status(201).json(result);
   }
 }
 

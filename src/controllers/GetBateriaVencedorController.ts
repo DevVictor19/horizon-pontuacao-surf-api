@@ -7,13 +7,19 @@ class GetBateriaVencedorController {
 
     const service = new GetBateriaVencedorService();
 
-    const result = await service.execute({ bateria_id: id });
+    try {
+      const result = await service.execute({ bateria_id: id });
 
-    if (result instanceof Error) {
-      return response.status(400).json({ mensagem: result.message });
+      if (result instanceof Error) {
+        return response.status(400).json({ mensagem: result.message });
+      }
+
+      return response.json(result);
+    } catch {
+      return response
+        .status(500)
+        .json({ mensagem: 'Não foi possível obter o vencedor da bateria' });
     }
-
-    return response.json(result);
   }
 }
 

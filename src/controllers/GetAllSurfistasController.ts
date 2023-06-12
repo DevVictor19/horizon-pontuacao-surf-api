@@ -8,9 +8,15 @@ class GetAllSurfistasController {
 
     const service = new GetAllSurfistasService();
 
-    const surfistas = await service.execute(query);
+    try {
+      const surfistas = await service.execute(query);
 
-    return response.json(surfistas);
+      return response.json(surfistas);
+    } catch {
+      return response
+        .status(500)
+        .json({ mensagem: 'Não foi possível listar surfistas' });
+    }
   }
 }
 

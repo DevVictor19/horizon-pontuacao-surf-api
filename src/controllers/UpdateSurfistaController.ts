@@ -9,13 +9,19 @@ class UpdateSurfistaController {
 
     const service = new UpdateSurfistaService();
 
-    const result = await service.execute({ id: +id, nome, pais });
+    try {
+      const result = await service.execute({ id: +id, nome, pais });
 
-    if (result instanceof Error) {
-      return response.status(404).json({ mensagem: result.message });
+      if (result instanceof Error) {
+        return response.status(404).json({ mensagem: result.message });
+      }
+
+      return response.json(result);
+    } catch {
+      return response
+        .status(500)
+        .json({ mensagem: 'Não foi possível editar surfista' });
     }
-
-    return response.json(result);
   }
 }
 
