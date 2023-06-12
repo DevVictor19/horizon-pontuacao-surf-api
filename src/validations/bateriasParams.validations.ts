@@ -1,6 +1,5 @@
-import { validateUuidV4 } from '../utils/validateUuidV4';
-
 import { ValidateParamsSchema } from '../middlewares/ValidateParams';
+import { validateUuidV4 } from '../utils/validateUuidV4';
 
 export const bateriasParamsValidationSchema: ValidateParamsSchema = {
   id: {
